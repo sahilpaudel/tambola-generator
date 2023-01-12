@@ -14,8 +14,8 @@ func GenerateTickets(numberOfTickets int) ([][3][9]int, error) {
 	tickets := make([][3][9]int, numberOfTickets)
 
 	for i := 0; i < numberOfTickets; i++ {
-		tickets = append(tickets, ticket.Generate())
+		tickets = append([][3][9]int{ticket.Generate()}, tickets...)
 	}
 
-	return tickets, nil
+	return tickets[:numberOfTickets], nil
 }

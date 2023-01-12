@@ -34,7 +34,7 @@ func Generate() [3][9]int {
 		var incompleteRows []int
 
 		for _, v := range possibleRow {
-			if !isRowCompleted(v, t) {
+			if !IsRowCompleted(v, t) {
 				incompleteRows = append(incompleteRows, v)
 			}
 		}
@@ -44,7 +44,7 @@ func Generate() [3][9]int {
 		randomRow := possibleRow[randomIncompleteRowIndex]
 
 		// if the location is 0 and column is not completed
-		if !isColumnCompleted(colIndex, t) && t.entries[randomRow][colIndex] == 0 {
+		if !IsColumnCompleted(colIndex, t) && t.entries[randomRow][colIndex] == 0 {
 
 			// insert the value at the chosen location
 			insertValue(t, randomRow, colIndex, numberToInsert)
@@ -59,7 +59,7 @@ func Generate() [3][9]int {
 	return t.entries
 }
 
-func sortTicket(ticket *Ticket) [3][9]int {
+func SortTicket(ticket *Ticket) [3][9]int {
 	t := &ticket.entries
 
 	for colIndex := 0; colIndex < 9; colIndex++ {
@@ -115,9 +115,9 @@ func fillRecursively(ticket *Ticket, numbers map[int][]int) {
 			isSet := rand.Float32() > 0.5
 
 			if !isSet &&
-				!isTicketCompleted(ticket) &&
-				!isRowCompleted(rIndex, ticket) &&
-				!isColumnCompleted(cIndex, ticket) &&
+				!IsTicketCompleted(ticket) &&
+				!IsRowCompleted(rIndex, ticket) &&
+				!IsColumnCompleted(cIndex, ticket) &&
 				ticket.entries[rIndex][cIndex] == 0 {
 				insertValue(ticket, rIndex, cIndex, numberToInsert)
 
@@ -128,10 +128,10 @@ func fillRecursively(ticket *Ticket, numbers map[int][]int) {
 			}
 		}
 	}
-	if !isTicketCompleted(ticket) {
+	if !IsTicketCompleted(ticket) {
 		fillRecursively(ticket, numbers)
 	} else {
-		sortTicket(ticket)
+		SortTicket(ticket)
 	}
 }
 
@@ -147,11 +147,11 @@ func getNumberOfEntries(ticket *Ticket) int {
 	return count
 }
 
-func isTicketCompleted(ticket *Ticket) bool {
+func IsTicketCompleted(ticket *Ticket) bool {
 	return getNumberOfEntries(ticket) == 15
 }
 
-func isRowCompleted(rowIndex int, ticket *Ticket) bool {
+func IsRowCompleted(rowIndex int, ticket *Ticket) bool {
 	rowValues := getRowValues(rowIndex, ticket)
 	count := 0
 	for _, v := range rowValues {
@@ -162,7 +162,7 @@ func isRowCompleted(rowIndex int, ticket *Ticket) bool {
 	return count == 5
 }
 
-func isColumnCompleted(columnIndex int, ticket *Ticket) bool {
+func IsColumnCompleted(columnIndex int, ticket *Ticket) bool {
 	colValues := getColumnValues(columnIndex, ticket)
 	count := 0
 	for _, v := range colValues {
