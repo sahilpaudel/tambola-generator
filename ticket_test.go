@@ -11,6 +11,7 @@ func TestGenerateTickets(t *testing.T) {
 	fmt.Println(ticket)
 	assert.Nil(t, err)
 	assert.NotNil(t, ticket)
+
 }
 
 func TestGenerateTicketsWithError(t *testing.T) {
